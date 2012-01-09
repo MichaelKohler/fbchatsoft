@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="FBChatSoft" default="default" basedir=".">
+    <description>Builds, tests, and runs the project FBChatSoft.</description>
+    
+    <import file="nbproject/build-impl.xml"/>
+
+    <import file="nbproject/profiler-build-impl.xml"/>
+    <import file="nbproject/profiler-build-impl.xml"/>
+
+    <target name="clean">
+        <delete dir="dist"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes"/>
+    </target>
+
+    <target name="jar">
+        <mkdir dir="dist"/>
+        <jar destfile="dist/FBChatSoft.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="fbchatsoft.client.FBChatSoft"/>
+        <attribute name="Class-Path" value="lib/smack.jar lib/junit.jar"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run">
+        <java jar="dist/FBChatSoft.jar" fork="true"/>
+    </target>
+
+    <target name="junit" depends="jar">
+        <mkdir dir="junitreport"/>
+        <junit printsummary="yes">
+            <classpath>
+                <pathelement location="build/classes/"/>
+            </classpath>
+            
+            <formatter type="xml"/>
+            
+            <batchtest todir="junitreport">
+                <fileset dir="src/" includes="**/*Test.java"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="junitreport">
+        <junitreport todir="junitreport">
+            <fileset dir="junitreport" includes="TEST-*.xml"/>
+            <report todir="junitreport"/>
+        </junitreport>
+    </target>
+</project>
